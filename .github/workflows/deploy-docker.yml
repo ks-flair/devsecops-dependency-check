@@ -44,7 +44,7 @@ jobs:
           push: true
           build-args: |
             NVD_API_KEY=${{ secrets.NVD_API_KEY }}
-            DC_VERSION=${{ secrets.DC_VERSION }}
+            DC_VERSION=${{ env.DC_VERSION }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:stable
