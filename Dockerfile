@@ -26,8 +26,10 @@ RUN curl -L -o /tmp/dc.zip "https://github.com/jeremylong/DependencyCheck/releas
     && rm /tmp/dc.zip
 
 # Pre-download the NVD database for faster scans in CI
+ARG NVD_API_KEY
+ENV NVD_API_KEY=${NVD_API_KEY}
 RUN mkdir -p $DC_DATA_DIR && \
-    dependency-check.sh --data $DC_DATA_DIR --updateonly --noupdate=false || true
+    dependency-check.sh --data $DC_DATA_DIR --updateonly || (echo "Dependency-Check DB update failed" && ls -l $DC_DATA_DIR)
 
 # Ensure /bin/sh points to bash for shell compatibility
 RUN ln -sf /bin/bash /bin/sh
