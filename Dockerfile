@@ -12,7 +12,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Set Dependency-Check version and data directory
-ARG DC_VERSION=8.4.0
+ARG DC_VERSION=12.1.0
 ENV DC_VERSION=${DC_VERSION}
 ENV DC_HOME=/opt/dependency-check
 ENV DC_DATA_DIR=/opt/dc-data
