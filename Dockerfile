@@ -7,7 +7,8 @@ RUN apt-get update && \
         bash \
         curl \
         unzip \
-        ca-certificates && \
+        ca-certificates \
+        gosu && \
     rm -rf /var/lib/apt/lists/*
 
 # Set Dependency-Check version
@@ -23,11 +24,15 @@ RUN curl -L -o /tmp/dc.zip "https://github.com/jeremylong/DependencyCheck/releas
     && ln -s ${DC_HOME}/bin/dependency-check.sh /usr/local/bin/dependency-check.sh \
     && rm /tmp/dc.zip
 
+# Ensure /bin/sh points to bash for shell compatibility
+RUN ln -sf /bin/bash /bin/sh
+
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Set working directory
 WORKDIR /workspace
 
-# Default entrypoint to bash for CI/CD flexibility
-ENTRYPOINT ["/bin/bash"]
-
-# Set default command
-CMD ["--version"] 
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/bin/bash"] 
